@@ -11,6 +11,8 @@
 		051D586B1E225E1F00FF469B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051D586A1E225E1F00FF469B /* ViewController.swift */; };
 		051D586D1E225E1F00FF469B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 051D586C1E225E1F00FF469B /* Assets.xcassets */; };
 		051D58701E225E1F00FF469B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 051D586E1E225E1F00FF469B /* Main.storyboard */; };
+		053A91511E22B9F100CDD34A /* PingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053A91501E22B9F100CDD34A /* PingView.swift */; };
+		053A91531E22C5FA00CDD34A /* Ping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053A91521E22C5FA00CDD34A /* Ping.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +22,8 @@
 		051D586C1E225E1F00FF469B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		051D586F1E225E1F00FF469B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		051D58711E225E1F00FF469B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		053A91501E22B9F100CDD34A /* PingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PingView.swift; sourceTree = "<group>"; };
+		053A91521E22C5FA00CDD34A /* Ping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ping.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +58,8 @@
 			children = (
 				051D58681E225E1F00FF469B /* AppDelegate.swift */,
 				051D586A1E225E1F00FF469B /* ViewController.swift */,
+				053A91501E22B9F100CDD34A /* PingView.swift */,
+				053A91521E22C5FA00CDD34A /* Ping.swift */,
 				051D586C1E225E1F00FF469B /* Assets.xcassets */,
 				051D586E1E225E1F00FF469B /* Main.storyboard */,
 				051D58711E225E1F00FF469B /* Info.plist */,
@@ -133,8 +139,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				053A91511E22B9F100CDD34A /* PingView.swift in Sources */,
 				051D586B1E225E1F00FF469B /* ViewController.swift in Sources */,
 				051D58691E225E1F00FF469B /* AppDelegate.swift in Sources */,
+				053A91531E22C5FA00CDD34A /* Ping.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,6 +297,7 @@
 				051D58761E225E1F00FF469B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
