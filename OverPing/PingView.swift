@@ -59,7 +59,14 @@ class PingView: NSView {
     {
         CATransaction.begin()
         CATransaction.setDisableActions(true)
-        timeline.strokeColor = CGColor(red: 0, green: 1, blue: 0, alpha: 1)
+        // 0.0      0.1     0.7 --->
+        // green    yellow  orange
+        timeline.strokeColor = time < 0.1 ?
+            CGColor(red: 0, green: 1, blue: 0, alpha: 1) :
+            time < 0.7 ?
+                CGColor(red: 1, green: 1, blue: 0, alpha: 1) :
+                CGColor(red: 1, green: 0.5, blue: 0, alpha: 1)
+        
         CATransaction.commit()
         timeline.speed = 0.0;
         timeline.timeOffset = layerTimeAtStart + (time >= 1 ? 0.99 : time);
