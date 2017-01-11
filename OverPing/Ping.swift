@@ -21,7 +21,7 @@ import Cocoa
 class Ping: NSObject {
     weak var delegate : PingDelegate?
     var secs : Double?
-    var error : PingError?
+    var error : Error?
     
     let task = Process()
     let standardOut = Pipe()
@@ -34,7 +34,10 @@ class Ping: NSObject {
         task.standardOutput = standardOut
         task.standardError = standardErr
         task.terminationHandler = terminationHandler
-        task.launch()
+        if let error = task.tc_launchWithoutExceptions() {
+            self.error = error
+            self.delegate?.ping(self, failedWithError: self.error!)
+        }
     } // run()
     
     func terminationHandler(task : Process) {
@@ -47,13 +50,13 @@ class Ping: NSObject {
     func handleEndOnMain(out: NSString, err: NSString)
     {
         guard err.length == 0 else {
-            self.error = .unknown(reason: err as String)
+            self.error = PingError.unknown(reason: err as String)
             self.delegate?.ping(self, failedWithError: self.error!)
             return
         }
         let lines = out.components(separatedBy: "\n")
         guard lines.count >= 6 else {
-            self.error = .unknown(reason: out as String)
+            self.error = PingError.unknown(reason: out as String)
             self.delegate?.ping(self, failedWithError: self.error!)
             return
         }
@@ -61,14 +64,14 @@ class Ping: NSObject {
         let pingLine = lines[1]
         
         guard !pingLine.hasPrefix("Request timeout") else {
-            self.error = .pingTimeout
+            self.error = PingError.pingTimeout
             self.delegate?.ping(self, failedWithError: self.error!)
             return
         }
         
         let msRegex = try! NSRegularExpression(pattern: "64 bytes from 8.8.8.8: icmp_seq=0 ttl=.+ time=(.+) ms")
         guard let results = msRegex.firstMatch(in: out as String, range: NSRange(location: 0, length: out.length)) else {
-            self.error = .unknown(reason: out as String)
+            self.error = PingError.unknown(reason: out as String)
             self.delegate?.ping(self, failedWithError: self.error!)
             return
         }
@@ -90,5 +93,5 @@ enum PingError: Error {
 protocol PingDelegate : NSObjectProtocol
 {
     func ping(_ ping: Ping, didFinishWithTime time: Double)
-    func ping(_ ping: Ping, failedWithError err: PingError)
+    func ping(_ ping: Ping, failedWithError err: Error)
 }

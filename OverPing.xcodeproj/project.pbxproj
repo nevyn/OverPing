@@ -14,6 +14,7 @@
 		053A91511E22B9F100CDD34A /* PingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053A91501E22B9F100CDD34A /* PingView.swift */; };
 		053A91531E22C5FA00CDD34A /* Ping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053A91521E22C5FA00CDD34A /* Ping.swift */; };
 		053A91551E2394F600CDD34A /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 053A91541E2394F600CDD34A /* README.md */; };
+		053A91821E26CD7E00CDD34A /* NSTask+ExceptionSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 053A91811E26CD7E00CDD34A /* NSTask+ExceptionSafe.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,9 @@
 		053A91501E22B9F100CDD34A /* PingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PingView.swift; sourceTree = "<group>"; };
 		053A91521E22C5FA00CDD34A /* Ping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ping.swift; sourceTree = "<group>"; };
 		053A91541E2394F600CDD34A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		053A917F1E26CD7E00CDD34A /* OverPing-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OverPing-Bridging-Header.h"; sourceTree = "<group>"; };
+		053A91801E26CD7E00CDD34A /* NSTask+ExceptionSafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTask+ExceptionSafe.h"; sourceTree = "<group>"; };
+		053A91811E26CD7E00CDD34A /* NSTask+ExceptionSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTask+ExceptionSafe.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,10 +66,13 @@
 				051D586A1E225E1F00FF469B /* ViewController.swift */,
 				053A91501E22B9F100CDD34A /* PingView.swift */,
 				053A91521E22C5FA00CDD34A /* Ping.swift */,
+				053A91801E26CD7E00CDD34A /* NSTask+ExceptionSafe.h */,
+				053A91811E26CD7E00CDD34A /* NSTask+ExceptionSafe.m */,
 				051D586C1E225E1F00FF469B /* Assets.xcassets */,
 				051D586E1E225E1F00FF469B /* Main.storyboard */,
 				051D58711E225E1F00FF469B /* Info.plist */,
 				053A91541E2394F600CDD34A /* README.md */,
+				053A917F1E26CD7E00CDD34A /* OverPing-Bridging-Header.h */,
 			);
 			path = OverPing;
 			sourceTree = "<group>";
@@ -103,6 +110,7 @@
 					051D58641E225E1F00FF469B = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = M4Q2TE45WT;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -146,6 +154,7 @@
 				051D586B1E225E1F00FF469B /* ViewController.swift in Sources */,
 				053A91551E2394F600CDD34A /* README.md in Sources */,
 				051D58691E225E1F00FF469B /* AppDelegate.swift in Sources */,
+				053A91821E26CD7E00CDD34A /* NSTask+ExceptionSafe.m in Sources */,
 				053A91531E22C5FA00CDD34A /* Ping.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -258,12 +267,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = M4Q2TE45WT;
 				INFOPLIST_FILE = OverPing/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = eu.thirdcog.OverPing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "OverPing/OverPing-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -272,12 +284,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = M4Q2TE45WT;
 				INFOPLIST_FILE = OverPing/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = eu.thirdcog.OverPing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "OverPing/OverPing-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

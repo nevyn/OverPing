@@ -78,7 +78,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         configurePing(cell, ping)
     }
     
-    func ping(_ ping: Ping, failedWithError err: PingError)
+    func ping(_ ping: Ping, failedWithError err: Error)
     {
         guard let idx = pings.index(of: ping) else {
             return
