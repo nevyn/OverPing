@@ -14,7 +14,7 @@ import Cocoa
 
 // EXPECTED REPLIES:
 // Request timeout for icmp_seq 11815
-// ping: cannot resolve 256.256.256.256: Unknown host
+// ping: cannot resolve 8.8.8.8: Unknown host
 // 64 bytes from 8.8.8.8: icmp_seq=0 ttl=53 time=2492.276 ms
 
 
@@ -23,9 +23,9 @@ class Ping: NSObject {
     var secs : Double?
     var error : Error?
     
-    let task = Process()
-    let standardOut = Pipe()
-    let standardErr = Pipe()
+    var task : Process! = Process()
+    var standardOut : Pipe! = Pipe()
+    var standardErr : Pipe! = Pipe()
     
     func run()
     {
@@ -38,11 +38,18 @@ class Ping: NSObject {
             self.error = error
             self.delegate?.ping(self, failedWithError: self.error!)
         }
+        
     } // run()
     
     func terminationHandler(task : Process) {
         let out = NSString(data: self.standardOut.fileHandleForReading.readDataToEndOfFile(), encoding: String.Encoding.utf8.rawValue)!
         let err = NSString(data: self.standardErr.fileHandleForReading.readDataToEndOfFile(), encoding: String.Encoding.utf8.rawValue)!
+        
+        // release resources
+        self.standardOut = nil
+        self.standardErr = nil
+        self.task = nil
+        
         DispatchQueue.main.async {
             self.handleEndOnMain(out: out, err: err)
         }
