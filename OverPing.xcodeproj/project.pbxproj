@@ -15,6 +15,7 @@
 		053A91531E22C5FA00CDD34A /* Ping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053A91521E22C5FA00CDD34A /* Ping.swift */; };
 		053A91551E2394F600CDD34A /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 053A91541E2394F600CDD34A /* README.md */; };
 		053A91821E26CD7E00CDD34A /* NSTask+ExceptionSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 053A91811E26CD7E00CDD34A /* NSTask+ExceptionSafe.m */; };
+		057DA42B1E2C412600938243 /* PingWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057DA42A1E2C412600938243 /* PingWindow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		053A917F1E26CD7E00CDD34A /* OverPing-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OverPing-Bridging-Header.h"; sourceTree = "<group>"; };
 		053A91801E26CD7E00CDD34A /* NSTask+ExceptionSafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTask+ExceptionSafe.h"; sourceTree = "<group>"; };
 		053A91811E26CD7E00CDD34A /* NSTask+ExceptionSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTask+ExceptionSafe.m"; sourceTree = "<group>"; };
+		057DA42A1E2C412600938243 /* PingWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PingWindow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 				051D58681E225E1F00FF469B /* AppDelegate.swift */,
 				051D586A1E225E1F00FF469B /* ViewController.swift */,
 				053A91501E22B9F100CDD34A /* PingView.swift */,
+				057DA42A1E2C412600938243 /* PingWindow.swift */,
 				053A91521E22C5FA00CDD34A /* Ping.swift */,
 				053A91801E26CD7E00CDD34A /* NSTask+ExceptionSafe.h */,
 				053A91811E26CD7E00CDD34A /* NSTask+ExceptionSafe.m */,
@@ -153,6 +156,7 @@
 				053A91511E22B9F100CDD34A /* PingView.swift in Sources */,
 				051D586B1E225E1F00FF469B /* ViewController.swift in Sources */,
 				053A91551E2394F600CDD34A /* README.md in Sources */,
+				057DA42B1E2C412600938243 /* PingWindow.swift in Sources */,
 				051D58691E225E1F00FF469B /* AppDelegate.swift in Sources */,
 				053A91821E26CD7E00CDD34A /* NSTask+ExceptionSafe.m in Sources */,
 				053A91531E22C5FA00CDD34A /* Ping.swift in Sources */,
