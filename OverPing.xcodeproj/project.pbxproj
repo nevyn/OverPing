@@ -13,7 +13,7 @@
 		051D58701E225E1F00FF469B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 051D586E1E225E1F00FF469B /* Main.storyboard */; };
 		053A91511E22B9F100CDD34A /* PingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053A91501E22B9F100CDD34A /* PingView.swift */; };
 		053A91531E22C5FA00CDD34A /* Ping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053A91521E22C5FA00CDD34A /* Ping.swift */; };
-		053A91551E2394F600CDD34A /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 053A91541E2394F600CDD34A /* README.md */; };
+		053A91551E2394F600CDD34A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 053A91541E2394F600CDD34A /* README.md */; };
 		053A91821E26CD7E00CDD34A /* NSTask+ExceptionSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 053A91811E26CD7E00CDD34A /* NSTask+ExceptionSafe.m */; };
 		057DA42B1E2C412600938243 /* PingWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057DA42A1E2C412600938243 /* PingWindow.swift */; };
 /* End PBXBuildFile section */
@@ -143,6 +143,7 @@
 			files = (
 				051D586D1E225E1F00FF469B /* Assets.xcassets in Resources */,
 				051D58701E225E1F00FF469B /* Main.storyboard in Resources */,
+				053A91551E2394F600CDD34A /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,7 +156,6 @@
 			files = (
 				053A91511E22B9F100CDD34A /* PingView.swift in Sources */,
 				051D586B1E225E1F00FF469B /* ViewController.swift in Sources */,
-				053A91551E2394F600CDD34A /* README.md in Sources */,
 				057DA42B1E2C412600938243 /* PingWindow.swift in Sources */,
 				051D58691E225E1F00FF469B /* AppDelegate.swift in Sources */,
 				053A91821E26CD7E00CDD34A /* NSTask+ExceptionSafe.m in Sources */,
