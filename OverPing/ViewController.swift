@@ -18,7 +18,8 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(performNewPing), userInfo: nil, repeats: true)
+        self.timer = Timer(timeInterval: 1.0, target: self, selector: #selector(performNewPing), userInfo: nil, repeats: true)
+        RunLoop.main.add(timer!, forMode: .commonModes)
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int
