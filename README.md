@@ -5,9 +5,11 @@ By [@nevyn](https://twitter.com/nevyn).
 Instead of having a Terminal window pinging google on every desktop, this app
 creates a window with progress bars for each ping, and pings once a second.
 
-<img width="402" alt="pings" src="https://cloud.githubusercontent.com/assets/34791/21762682/60e4a5ba-d65a-11e6-99e4-0b7817436452.png">
+<img width="569" alt="screenshot 2017-01-15 16 05 20" src="https://cloud.githubusercontent.com/assets/34791/21967457/89daab40-db3c-11e6-8feb-c52765fd4ee5.png">
 
 
 ## todo
 
-* Make window anywhere-draggable+resizable (I'm using Zooom/2 to move it)
+* Fix the bug where bars disappear when scrolling
+* Exponential bars?
+* Better visualization of error type
