@@ -11,6 +11,7 @@ import Cocoa
 class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, PingDelegate {
 
     var pings : [Ping] = []
+    var maxPings = 10000
     var timer : Timer?
     @IBOutlet var tableView : NSTableView!
     
@@ -62,6 +63,10 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         ping.run()
         self.pings.insert(ping, at: 0)
         self.tableView.insertRows(at: IndexSet(integer:0), withAnimation: .slideDown)
+        if(self.pings.count > self.maxPings) {
+            self.pings.removeLast()
+            self.tableView.removeRows(at: IndexSet(integer:self.pings.count), withAnimation: .slideDown)
+        }
     }
     
     func ping(_ ping: Ping, didFinishWithTime time: Double)
