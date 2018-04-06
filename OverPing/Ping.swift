@@ -14,8 +14,8 @@ import Cocoa
 
 // EXPECTED REPLIES:
 // Request timeout for icmp_seq 11815
-// ping: cannot resolve 8.8.8.8: Unknown host
-// 64 bytes from 8.8.8.8: icmp_seq=0 ttl=53 time=2492.276 ms
+// ping: cannot resolve 1.1.1.1: Unknown host
+// 64 bytes from 1.1.1.1: icmp_seq=0 ttl=53 time=2492.276 ms
 
 
 class Ping: NSObject {
@@ -30,7 +30,7 @@ class Ping: NSObject {
     func run()
     {
         task.launchPath = "/sbin/ping"
-        task.arguments = ["-c", "1", "8.8.8.8"]
+        task.arguments = ["-c", "1", "1.1.1.1"]
         task.standardOutput = standardOut
         task.standardError = standardErr
         task.terminationHandler = terminationHandler
@@ -76,7 +76,7 @@ class Ping: NSObject {
             return
         }
         
-        let msRegex = try! NSRegularExpression(pattern: "64 bytes from 8.8.8.8: icmp_seq=0 ttl=.+ time=(.+) ms")
+        let msRegex = try! NSRegularExpression(pattern: "64 bytes from 1.1.1.1: icmp_seq=0 ttl=.+ time=(.+) ms")
         guard let results = msRegex.firstMatch(in: out as String, range: NSRange(location: 0, length: out.length)) else {
             self.error = PingError.unknown(reason: out as String)
             self.delegate?.ping(self, failedWithError: self.error!)
