@@ -82,7 +82,7 @@ class Ping: NSObject {
             self.delegate?.ping(self, failedWithError: self.error!)
             return
         }
-        let msString = out.substring(with: results.rangeAt(1)) as NSString
+        let msString = out.substring(with: results.range(at: 1)) as NSString
         let secs = msString.doubleValue/1000.0
         
         self.secs = secs

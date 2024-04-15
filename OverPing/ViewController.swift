@@ -19,7 +19,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         super.viewDidLoad()
 
         self.timer = Timer(timeInterval: 1.0, target: self, selector: #selector(performNewPing), userInfo: nil, repeats: true)
-        RunLoop.main.add(timer!, forMode: .commonModes)
+        RunLoop.main.add(timer!, forMode: .common)
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int
@@ -28,7 +28,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     }
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
-        return tableView.make(withIdentifier: "PingCell", owner: self)
+        return tableView.makeView(withIdentifier: tableColumn!.identifier, owner: self)
     }
 
     
@@ -72,7 +72,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     
     func ping(_ ping: Ping, didFinishWithTime time: Double)
     {
-        guard let idx = pings.index(of: ping) else {
+        guard let idx = pings.firstIndex(of: ping) else {
             return
         }
         guard let rowView = self.tableView.rowView(atRow: idx, makeIfNecessary: false) else {
@@ -86,7 +86,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
     
     func ping(_ ping: Ping, failedWithError err: Error)
     {
-        guard let idx = pings.index(of: ping) else {
+        guard let idx = pings.firstIndex(of: ping) else {
             return
         }
         guard let rowView = self.tableView.rowView(atRow: idx, makeIfNecessary: false) else {

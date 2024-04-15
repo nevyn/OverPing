@@ -25,7 +25,7 @@ class PingView: NSView {
         
         timeline.path = path.copy()
         timeline.strokeColor = CGColor(gray: 0.5, alpha: 1)
-        timeline.lineWidth = 2
+        timeline.lineWidth = 8
         
     }
     
@@ -48,7 +48,7 @@ class PingView: NSView {
         anim.toValue = path
         anim.duration = 1.0
         anim.isRemovedOnCompletion = false
-        anim.fillMode = kCAFillModeForwards
+        anim.fillMode = .forwards
         
         timeline.add(anim, forKey: "ping")
         
