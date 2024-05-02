@@ -12,14 +12,26 @@ Before OverPing, I would always have a Terminal window open on every desktop jus
 
 # Installation and usage
 
-1. [Download OverPing 1.0 (1)](https://github.com/nevyn/OverPing/releases/download/1.0/OverPing.1.0.1.zip)
+1. [Download OverPing 1.1](https://github.com/nevyn/OverPing/releases/download/1.1/OverPing.v1.1.zip)
 2. Unzip and drag it to your Applications folder (or wherever)
-3. Double click to launch
+3. Double click to launch. Maybe add to your login items? :)
 
 There are no configuration options.
 
+# Version History
 
-## todo
+## v1.1
+
+* Apple Silicon and modern macOS support
+* Notarized
+* Thicker bars
+
+## v1.0 (1)
+
+* First release
+
+
+# To-do
 
 * Fix the bug where bars disappear when scrolling
 * Exponential bars?
