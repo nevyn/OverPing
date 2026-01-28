@@ -16,7 +16,7 @@ class PingView: NSView {
     {
         super.init(coder: coder)
         self.wantsLayer = true
-        
+        timeline.lineCap = .round
         self.layer?.addSublayer(timeline)
         
         let path = CGMutablePath()
