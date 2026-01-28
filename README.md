@@ -12,13 +12,17 @@ Before OverPing, I would always have a Terminal window open on every desktop jus
 
 # Installation and usage
 
-1. [Download OverPing 1.1](https://github.com/nevyn/OverPing/releases/download/1.1/OverPing.v1.1.zip)
+1. [Download the latest OverPing release](https://github.com/nevyn/OverPing/releases/latest)
 2. Unzip and drag it to your Applications folder (or wherever)
 3. Double click to launch. Maybe add to your login items? :)
 
 There are no configuration options.
 
 # Version History
+
+## v1.2
+
+* Slightly modernized UI for macOS 26
 
 ## v1.1
 
