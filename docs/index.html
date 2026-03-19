@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OverPing — See your internet connection at a glance</title>
+  <meta name="description" content="A tiny macOS utility that shows you a live graph of your internet connection speed. Know instantly if it's your WiFi or the other side.">
+  <meta property="og:title" content="OverPing — See your internet connection at a glance">
+  <meta property="og:description" content="A tiny macOS utility that shows you a live graph of your internet connection speed.">
+  <meta property="og:image" content="assets/appicon.png">
+  <link rel="icon" type="image/png" href="assets/appicon.png">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #44C75A;
+      --green-dim: #2E8C3E;
+      --yellow: #D4C940;
+      --orange: #D48840;
+      --bg: #FAFBFA;
+      --bg-alt: #F0F3F1;
+      --text: #1A2B1F;
+      --text-muted: #5B6E60;
+      --card-bg: #FFFFFF;
+      --card-shadow: rgba(68, 199, 90, 0.07);
+      --border: rgba(68, 199, 90, 0.12);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0D110E;
+        --bg-alt: #151C17;
+        --text: #DCE8E0;
+        --text-muted: #8FA895;
+        --card-bg: #1A231C;
+        --card-shadow: rgba(0, 0, 0, 0.35);
+        --border: rgba(68, 199, 90, 0.08);
+      }
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ---- Hero ---- */
+    .hero {
+      text-align: center;
+      padding: 90px 24px 60px;
+    }
+
+    .hero-icon {
+      width: 120px;
+      height: 120px;
+      border-radius: 26px;
+      margin-bottom: 28px;
+      box-shadow: 0 6px 32px rgba(68, 199, 90, 0.18);
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 750;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .hero .tagline {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 440px;
+      margin: 0 auto 40px;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green);
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.05rem;
+      font-weight: 600;
+      padding: 14px 32px;
+      border-radius: 12px;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 18px rgba(68, 199, 90, 0.25);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(68, 199, 90, 0.35);
+    }
+
+    .cta-button svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .cta-note {
+      margin-top: 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* ---- Ping demo ---- */
+    .demo {
+      padding: 20px 0 60px;
+    }
+
+    .demo-window {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 30px var(--card-shadow);
+    }
+
+    .demo-titlebar {
+      background: var(--bg-alt);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .demo-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+
+    .demo-bars {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .ping-bar {
+      height: 4px;
+      border-radius: 2px;
+      animation: bar-appear 0.3s ease-out backwards;
+    }
+
+    @keyframes bar-appear {
+      from { transform: scaleX(0); opacity: 0; }
+      to { transform: scaleX(1); opacity: 1; }
+    }
+
+    /* ---- Story section ---- */
+    .story {
+      padding: 40px 0 60px;
+    }
+
+    .story h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .story p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      max-width: 560px;
+      margin: 0 auto 16px;
+      text-align: center;
+    }
+
+    .story p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ---- Color legend ---- */
+    .legend {
+      background: var(--bg-alt);
+      border-radius: 16px;
+      padding: 36px 32px;
+      margin: 40px 0;
+    }
+
+    .legend h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-align: center;
+      letter-spacing: -0.01em;
+    }
+
+    .legend-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .legend-swatch {
+      width: 32px;
+      height: 8px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .legend-label {
+      font-size: 0.95rem;
+    }
+
+    .legend-label span {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* ---- Use cases ---- */
+    .usecases {
+      padding: 20px 0 60px;
+    }
+
+    .usecases h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .usecase-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .usecase {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+    }
+
+    .usecase-emoji {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+
+    .usecase h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .usecase p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ---- Install ---- */
+    .install {
+      background: var(--bg-alt);
+      border-radius: 16px;
+      padding: 40px 32px;
+      margin-bottom: 40px;
+    }
+
+    .install h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .install-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .install-step {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .install-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--green);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .install-step p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    /* ---- Footer ---- */
+    footer {
+      text-align: center;
+      padding: 40px 24px 56px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.8;
+    }
+
+    footer a {
+      color: var(--green);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-rule {
+      width: 36px;
+      height: 2px;
+      background: var(--green);
+      border: none;
+      border-radius: 1px;
+      margin: 0 auto 16px;
+      opacity: 0.5;
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 600px) {
+      .hero { padding: 64px 20px 48px; }
+      .hero h1 { font-size: 2.1rem; }
+      .legend-grid { grid-template-columns: 1fr; }
+      .usecase-grid { grid-template-columns: 1fr; }
+      .install { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <img src="assets/appicon.png" alt="OverPing app icon" class="hero-icon" width="120" height="120">
+    <h1>Is it your WiFi, or theirs?</h1>
+    <p class="tagline">OverPing shows you a live picture of your internet connection, so you always know the answer.</p>
+    <a href="https://github.com/nevyn/OverPing/releases/latest" class="cta-button">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download for macOS
+    </a>
+    <p class="cta-note">Free &middot; Open source &middot; No setup needed</p>
+  </header>
+
+  <main class="container">
+
+    <!-- Animated ping demo -->
+    <section class="demo">
+      <div class="demo-window">
+        <div class="demo-titlebar">
+          <div class="demo-dot"></div>
+          <div class="demo-dot"></div>
+          <div class="demo-dot"></div>
+        </div>
+        <div class="demo-bars" id="demo-bars"></div>
+      </div>
+    </section>
+
+    <!-- Story -->
+    <section class="story">
+      <h2>Your connection, visualized</h2>
+      <p>You're on a video call and the other person freezes. Is it your internet or theirs? With OverPing running, you just glance at the bars. Green and short means your connection is fine &mdash; it's on their end. Long yellow or red bars? Time to move closer to the router.</p>
+      <p>OverPing sits in a small window on your desktop, quietly pinging the internet once per second. Each bar shows how long that ping took &mdash; short green bars mean a fast, healthy connection. The wider the bar, the slower your internet is right now.</p>
+    </section>
+
+    <!-- Color legend -->
+    <div class="legend">
+      <h2>Reading the bars</h2>
+      <div class="legend-grid">
+        <div class="legend-item">
+          <div class="legend-swatch" style="background: #44C75A; width: 20px;"></div>
+          <div class="legend-label"><strong>Green, short</strong><span>Fast &mdash; you're good</span></div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-swatch" style="background: #D4C940; width: 48px;"></div>
+          <div class="legend-label"><strong>Yellow, wider</strong><span>Noticeable lag</span></div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-swatch" style="background: #D48840; width: 72px;"></div>
+          <div class="legend-label"><strong>Orange, wide</strong><span>Slow &mdash; calls will suffer</span></div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-swatch" style="background: #D04040; width: 48px;"></div>
+          <div class="legend-label"><strong>Red</strong><span>No response &mdash; you're offline</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use cases -->
+    <section class="usecases">
+      <h2>Great for</h2>
+      <div class="usecase-grid">
+        <div class="usecase">
+          <div class="usecase-emoji" role="img" aria-label="video call">&#128247;</div>
+          <h3>Video calls</h3>
+          <p>Know instantly whether it's your connection cutting out or the other person's.</p>
+        </div>
+        <div class="usecase">
+          <div class="usecase-emoji" role="img" aria-label="train">&#128646;</div>
+          <h3>Working on the go</h3>
+          <p>Hotspotting on trains, cafes, airports &mdash; see your connection quality in real time.</p>
+        </div>
+        <div class="usecase">
+          <div class="usecase-emoji" role="img" aria-label="router">&#128225;</div>
+          <h3>Troubleshooting WiFi</h3>
+          <p>Find dead spots in your home by walking around and watching the bars change.</p>
+        </div>
+        <div class="usecase">
+          <div class="usecase-emoji" role="img" aria-label="gaming">&#127918;</div>
+          <h3>Gaming sessions</h3>
+          <p>Keep an eye on latency so you know when lag spikes are coming from your end.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Install -->
+    <div class="install">
+      <h2>Getting started</h2>
+      <div class="install-steps">
+        <div class="install-step">
+          <div class="install-num">1</div>
+          <p><a href="https://github.com/nevyn/OverPing/releases/latest" style="color: var(--green); text-decoration: none; font-weight: 600;">Download</a> and unzip</p>
+        </div>
+        <div class="install-step">
+          <div class="install-num">2</div>
+          <p>Drag OverPing to your Applications folder</p>
+        </div>
+        <div class="install-step">
+          <div class="install-num">3</div>
+          <p>Open it. That's it &mdash; no settings, no accounts, no fuss</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <hr class="footer-rule">
+    <p>Made by <a href="https://nevyn.dev">Nevyn Bengtsson</a></p>
+    <p><a href="https://github.com/nevyn/OverPing">View source on GitHub</a></p>
+  </footer>
+
+  <script>
+    // Animated ping demo
+    const container = document.getElementById('demo-bars');
+    const bars = [];
+    const maxBars = 28;
+
+    function randomPing() {
+      // Mostly good pings, occasional slow/bad ones
+      const r = Math.random();
+      if (r < 0.65) return 8 + Math.random() * 25;       // good
+      if (r < 0.82) return 35 + Math.random() * 60;      // ok
+      if (r < 0.93) return 100 + Math.random() * 200;    // slow
+      if (r < 0.97) return 300 + Math.random() * 400;    // bad
+      return -1;                                           // timeout
+    }
+
+    function pingColor(ms) {
+      if (ms < 0) return '#D04040';
+      if (ms < 100) return '#44C75A';
+      if (ms < 300) return '#D4C940';
+      if (ms < 700) return '#D48840';
+      return '#D04040';
+    }
+
+    function addBar() {
+      const ms = randomPing();
+      const bar = document.createElement('div');
+      bar.className = 'ping-bar';
+      const width = ms < 0 ? 100 : Math.min(100, Math.max(2, ms / 5));
+      bar.style.width = width + '%';
+      bar.style.background = pingColor(ms);
+      bar.style.animationDelay = '0s';
+      bar.style.transformOrigin = 'left center';
+
+      container.prepend(bar);
+      bars.unshift(bar);
+
+      if (bars.length > maxBars) {
+        const old = bars.pop();
+        old.remove();
+      }
+    }
+
+    // Fill initial bars quickly
+    for (let i = 0; i < maxBars; i++) {
+      const ms = randomPing();
+      const bar = document.createElement('div');
+      bar.className = 'ping-bar';
+      const width = ms < 0 ? 100 : Math.min(100, Math.max(2, ms / 5));
+      bar.style.width = width + '%';
+      bar.style.background = pingColor(ms);
+      bar.style.transformOrigin = 'left center';
+      container.appendChild(bar);
+      bars.push(bar);
+    }
+
+    setInterval(addBar, 1000);
+  </script>
+
+</body>
+</html>
